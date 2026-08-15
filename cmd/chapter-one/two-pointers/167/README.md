@@ -23,7 +23,7 @@ Your solution must use only constant extra space.
 <b>Explanation</b>: <i>The sum of 2 and 7 is 9. Therefore, index<sub>1</sub> = 1, index<sub>2</sub> = 2.</i>
 
 We return [1, 2].
-
+<hr/>
 
 <b>Example 2</b>:
 
@@ -34,6 +34,7 @@ We return [1, 2].
 <b>Explanation</b>: <i>The sum of 2 and 4 is 6. Therefore, index<sub>1</sub> = 1, index<sub>2</sub> = 3.</i>
 
 We return [1, 3].
+<hr/>
 
 <b>Example 3</b>:
 
@@ -44,6 +45,7 @@ We return [1, 3].
 <b>Explanation</b>: <i>The sum of -1 and 0 is -1. Therefore, index<sub>1</sub> = 1, index<sub>2</sub> = 2.</i>
 
 We return [1, 2].
+<hr/>
 
 <b>Constraints</b>:
 
