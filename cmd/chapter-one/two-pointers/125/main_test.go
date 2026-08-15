@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -33,26 +34,89 @@ func TestIsPalindrome(t *testing.T) {
 	}
 }
 
-func TestRemoveNonalphanumeric(t *testing.T) {
-	tests := []struct {
-		name  string
-		input string
-		want  string
-	}{
-		{name: "test only lowercase letters", input: "hello", want: "hello"},
-		{name: "test only uppercase letters", input: "WORLD", want: "WORLD"},
-		{name: "test only numbers", input: "1234567890", want: "1234567890"},
-		{name: "test mixed alphanumeric", input: "GoLang123", want: "GoLang123"},
-		{name: "test spaces and punctuation", input: "hello, world!!!", want: "helloworld"},
-		{name: "test special characters and symbols", input: "a#b$c%1^2&3", want: "abc123"},
-		{name: "test empty string", input: "", want: ""},
-		{name: "test only non-alphanumeric", input: "!@#$%&*()_+", want: ""},
+type testCase struct {
+	name  string
+	input byte
+	want  bool
+}
+
+func generateIsAlumASCIITests() []testCase {
+	tests := make([]testCase, 95)
+	idx := 0
+
+	for b := byte(' '); b <= '/'; b++ {
+		tests[idx] = testCase{
+			name:  fmt.Sprintf("non alphanumeric characters before digits:%s", string(b)),
+			input: b,
+			want:  false,
+		}
+		idx++
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := removeNonAlphanumeric(tt.input)
-			if got != tt.want {
-				t.Errorf("got %q, want %q", got, tt.want)
+
+	for b := byte('0'); b <= '9'; b++ {
+		tests[idx] = testCase{
+			name:  fmt.Sprintf("valid digit:%s", string(b)),
+			input: b,
+			want:  true,
+		}
+		idx++
+	}
+
+	for b := byte(':'); b <= '@'; b++ {
+		tests[idx] = testCase{
+			name:  fmt.Sprintf("non alphanumeric characters before uppercase letters:%s", string(b)),
+			input: b,
+			want:  false,
+		}
+		idx++
+	}
+
+	for b := byte('A'); b <= 'Z'; b++ {
+		tests[idx] = testCase{
+			name:  fmt.Sprintf("valid uppercase letter:%s", string(b)),
+			input: b,
+			want:  true,
+		}
+		idx++
+	}
+
+	for b := byte('['); b <= '`'; b++ {
+		tests[idx] = testCase{
+			name:  fmt.Sprintf("non alphanumeric characters before lowercase letters:%s", string(b)),
+			input: b,
+			want:  false,
+		}
+		idx++
+	}
+
+	for b := byte('a'); b <= 'z'; b++ {
+		tests[idx] = testCase{
+			name:  fmt.Sprintf("valid lowercase letter:%s", string(b)),
+			input: b,
+			want:  true,
+		}
+		idx++
+	}
+
+	for b := byte('{'); b <= '~'; b++ {
+		tests[idx] = testCase{
+			name:  fmt.Sprintf("non alphanumeric after lowercase letters:%s", string(b)),
+			input: b,
+			want:  false,
+		}
+		idx++
+	}
+
+	return tests
+}
+func TestIsAlumASCII(t *testing.T) {
+	tests := generateIsAlumASCIITests()
+	for i := range tests {
+		tc := tests[i]
+		t.Run(tc.name, func(t *testing.T) {
+			got := isAlnumASCII(tc.input)
+			if got != tc.want {
+				t.Errorf("isAlnumASCII(%q) = %t, want %t", tc.input, got, tc.want)
 			}
 		})
 	}
